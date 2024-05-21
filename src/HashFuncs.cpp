@@ -1,23 +1,18 @@
 #include "HashFuncs.h"
+#include <nmmintrin.h>
 
 uint32_t HashFuncCRC32(const char* str) 
 {
     assert(str != nullptr);
 
-    unsigned int crc = 0xFFFFFFFF;
-    size_t length = strlen(str);
+    uint32_t crc = 0xFFFFFFFF;
+    crc = _mm_crc32_u32(crc, *(unsigned int*)str);
+    crc = _mm_crc32_u32(crc, *((unsigned int*)str + 1));
+    crc = _mm_crc32_u32(crc, *((unsigned int*)str + 2));
+    crc = _mm_crc32_u32(crc, *((unsigned int*)str + 3));
 
-    for (size_t i = 0; i < length; i++) {
-        crc = crc ^ static_cast<unsigned int>(str[i]);
-
-        for (size_t j = 0; j < 8; j++) 
-            crc = (crc >> 1) ^ (CRC32_POLYNOMIAL & ~((crc & 1) - 1));
-    }
-
-    return ~crc;
+    return crc;
 }
-
-
 uint32_t HashFuncStrLen(const char* str) 
 {
     assert(str != nullptr);

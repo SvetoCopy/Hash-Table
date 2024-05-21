@@ -8,7 +8,7 @@ def generate_random_word(length):
 # Открываем файл для записи
 with open('text2.txt', 'w') as file:
     # Генерируем около 800 строк
-    for _ in range(4300):
+    for _ in range(100000):
         word_length = random.randint(1, 20)  # Случайная длина слова до 120 символов
         random_word = generate_random_word(word_length)
         file.write(random_word + '\n')  # Записываем слово в файл, завершая строку
