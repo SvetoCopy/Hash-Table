@@ -1,11 +1,10 @@
 #include "HashTable.h"
 #include <string.h>
+#include "HashFuncs.h"
 
-int HashFunc(const char* str) 
+uint32_t HashTable::HashFunc(const char* str, int max_num) 
 {
-    assert(str != nullptr);
-
-    return strlen(str);
+    return HashFuncCRC32(str) % max_num;
 }
 
 HashTable::HashTable(size_t table_size) :
@@ -15,7 +14,7 @@ HashTable::HashTable(size_t table_size) :
 
     assert(this->table != nullptr);
 
-    for (int i = 0; i < table_size; i++) 
+    for (size_t i = 0; i < table_size; i++) 
     {
         ListCtor(&(this->table[i]), INIT_LIST_CAPACITY, "log.txt");
     }
@@ -23,9 +22,8 @@ HashTable::HashTable(size_t table_size) :
 
 HashTable::~HashTable() 
 {
-    for (int i = 0; i < this->size; i++) {
+    for (size_t i = 0; i < this->size; i++) {
         ListDtor(&(this->table[i]));
-        this->table[i].capacity = -11;
     }
         
     this->size = 0;
@@ -35,12 +33,12 @@ void HashTable::Insert(char* str)
 {
     assert(str != nullptr);
 
-    ListInsertEnd(&(this->table[HashFunc(str)]), str);
+    ListInsertEnd(&(this->table[HashFunc(str, this->size)]), str);
 }
 
 bool HashTable::Find(const char* str) 
 {
     assert(str != nullptr);
 
-    return ListFindElem(&(this->table[HashFunc(str)]), str);
+    return ListFindElem(&(this->table[HashFunc(str, this->size)]), str);
 }

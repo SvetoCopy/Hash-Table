@@ -7,6 +7,7 @@ enable_testing()
 file(GLOB_RECURSE RUZALLIB_SRC_FILES RuzalLib/src/*.cpp)
 file(GLOB_RECURSE SRC_FILES src/*.cpp)
 add_executable(hash_table main.cpp ${SRC_FILES} ${RUZALLIB_SRC_FILES})
+set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} -O3 -mavx")
 
 set(CPACK_PROJECT_NAME ${PROJECT_NAME})
 set(CPACK_PROJECT_VERSION ${PROJECT_VERSION})

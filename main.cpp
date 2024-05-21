@@ -2,6 +2,15 @@
 #include "super_io.h"
 #include <iostream>
 
+void CreateGraphTable(FILE* file, HashTable* table) 
+{
+    assert(file != nullptr);
+
+    for (int i = 0; i < table->size; i++) {
+        fprintf(file, "%d %d\n", i, table->table[i].size);
+    }
+}
+
 int main(int argc, const char* argv[])
 {
 	//if (argc < 2) {
@@ -10,17 +19,19 @@ int main(int argc, const char* argv[])
 	//}
     // printf("\n%s\n", argv[1]);
 
-    FileInfo file = FileInfoCtor("text.txt");
+    FileInfo file = FileInfoCtor("text2.txt");
     ReadBuff(&file);
-    printf("111");
 
-    HashTable table(50);
+    HashTable table(631);
 
     for (int i = 0; i < file.n_lines; i++) {
-        printf("111");
         table.Insert(file.text[i]);
     }
+
+    FILE* res = fopen("../graph.txt", "w");
+    CreateGraphTable(res, &table);
     
-    bool c = table.Find("dadadae");
-    std::cout << "\nc = " << c << std::endl;
+    for (int i = 0; i < 20000; i++)
+        bool c = table.Find("dadadae");
+    // std::cout << "\nc = " << c << std::endl;
 }

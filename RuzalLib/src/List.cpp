@@ -218,11 +218,6 @@ int ListInsertStart(List* list, ListElem_t value) {
 int ListInsertEnd(List* list, ListElem_t value) {
 	assert(list != nullptr);
 	assert(list->list_arr != nullptr);
-	
-	if (list->capacity != 101){
-		int b = 0;
-	}
-		
 
 	if (list->size > list->capacity / 2) ListReallocUp(list, list->capacity * 2);
 
