@@ -9,7 +9,7 @@
 <p>Хеш-функция которая возвращает 0 для любых входных данных.</p>
 
 ```c++
-int HashFuncConstant(const char* str) 
+uint32_t HashFuncConstant(const char* str) 
 {
     return 0;
 }
@@ -29,7 +29,7 @@ D = 29456.30
 <p>Хеш-функция которая возвращает длину строки.</p>
 
 ```c++
-int HashFuncStrLen(const char* str) 
+uint32_t HashFuncStrLen(const char* str) 
 {
     return strlen(str) % max_num;
 }
@@ -46,16 +46,18 @@ D = 1427.78
 <p>Хеш-функция которая возвращает сумму всех ASCII-кодов символов строки.</p>
 
 ```c++
-int HashFuncAsciiSum(const char* str) 
+uint32_t HashFuncAsciiSum(const char* str) 
 {
-    int res = 0;
-    int str_len = strlen(str);
+    assert(str != nullptr);
 
-    for (int i = 0; i < str_len; i++) {
+    uint32_t res = 0;
+    uint32_t str_len = strlen(str);
+
+    for (uint32_t i = 0; i < str_len; i++) {
         res += str[i];
     }
     
-    return res % max_num;
+    return res;
 }
 ```
 
@@ -80,16 +82,18 @@ D = 83.7
 <h3>MurMur</h3>
 
 ```c++
-unsigned long long MurMurHash(const char* data)
+uint32_t HashFuncMurMur(const char* data)
 {
+    assert(data != nullptr);
+
     size_t size = strlen(data);
-    unsigned int m = 0x5bd1e995;
-    unsigned int seed = 0;
-    unsigned int r = 24;
-    unsigned int h = seed ^ size;
+    uint32_t m = 0x5bd1e995;
+    uint32_t seed = 0;
+    uint32_t r = 24;
+    uint32_t h = seed ^ size;
 
     unsigned char* arr = (unsigned char*)data;
-    unsigned int k = 0;
+    uint32_t k = 0;
 
     while (size >= 4)
     {
@@ -129,4 +133,33 @@ unsigned long long MurMurHash(const char* data)
 
 ```
 D = 10.75
+```
+
+<h3>CRC32</h3>
+
+```c++
+uint32_t HashFuncCRC32(const char* str) 
+{
+    assert(str != nullptr);
+
+    unsigned int crc = 0xFFFFFFFF;
+    size_t length = strlen(str);
+
+    for (size_t i = 0; i < length; i++) {
+        crc = crc ^ static_cast<unsigned int>(str[i]);
+
+        for (size_t j = 0; j < 8; j++) 
+            crc = (crc >> 1) ^ (CRC32_POLYNOMIAL & ~((crc & 1) - 1));
+    }
+
+    return ~crc;
+}
+
+```
+
+![crc32](https://github.com/SvetoCopy/Hash-Table/assets/65361271/75da5bd8-d286-43fd-9276-ae6b899f72ff)
+
+
+```
+D = 9.82
 ```
