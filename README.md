@@ -86,7 +86,7 @@ uint32_t HashFuncAsciiSum(const char* str)
 <p>Рассмотрим использование этой хеш-функции для различных размеров таблицы.</p>
 <h4>Хеш-таблица размером 631 элемент</h4>
 
-![ascii sum (631)](https://github.com/SvetoCopy/Hash-Table/assets/65361271/4aa494e8-78ee-442f-be6c-a8c287d94e78)
+![ascii sum (631)](https://github.com/SvetoCopy/Hash-Table/graphs/ascii_sum_631.png)
 
 
 ```
@@ -95,7 +95,7 @@ D = 12.13
 
 <h4>Хеш-таблица размером 101 элемент</h4>
 
-![ascii sum(101)](https://github.com/SvetoCopy/Hash-Table/assets/65361271/72416bdf-06e3-48bc-9098-78fa260f1212)
+![ascii sum(101)](https://github.com/SvetoCopy/Hash-Table/graphs/ascii_sum_101.png)
 
 ```
 D = 83.7
