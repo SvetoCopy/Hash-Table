@@ -343,3 +343,65 @@ ListFindElem(List*, char const*):
         xor     eax, eax
         ret
 ```
+<p>
+Здесь заметим, что наша ассемблерная вставка, выполняемая в цикле выполняет одни и те же действия. Это обращение в память - YMMWORD PTR [rsi] (хотя rsi не меняется) и vzeroupper. 
+Вынесем их за цикл и посмотрим, что выйдет:
+</p>
+
+```asm
+.intel_syntax noprefix
+
+.text
+
+.global ListFindElem
+ListFindElem:
+        movsx   rax, DWORD PTR [rdi+20]
+        mov     r8, QWORD PTR [rdi]
+        mov     r9d, DWORD PTR [rdi+12]
+        lea     rax, [rax+rax*2]
+        lea     rdx, [r8+rax*8]
+        test    r9d, r9d
+        jle     .L4
+        xor     ecx, ecx
+        xor     r10d, r10d
+        vmovdqu ymm1, YMMWORD PTR [rsi]
+        jmp     .L3
+.L8:
+        movsx   rdx, DWORD PTR [rdx+16]
+        add     ecx, 1
+        lea     rdx, [rdx+rdx*2]
+        lea     rdx, [r8+rdx*8]
+        cmp     ecx, r9d
+        je      .L7
+.L3:
+        mov     rdi, QWORD PTR [rdx+8]
+        mov     eax, r10d
+        .intel_syntax noprefix
+        vmovdqu ymm0, YMMWORD PTR [rdi]
+        vptest  ymm0, ymm1
+        setb al
+
+        test    al, al
+        je      .L8
+        ret
+.L7:
+        vzeroupper
+        ret
+.L4:
+        xor     eax, eax
+        ret
+```
+
+<p>Тогда получим:</p>
+
+|       | 1          | 2          | 3          | Average           |
+|-------|------------|------------|------------|-------------------|
+| RDTSC | 311400203  | 313090695   | 313610165 | (312 +- 9) * 10^6 |
+
+<p>Что ускорило программу  в 1.12 раз относительно второй оптимизации.</p>
+
+<h3>Выводы</h3>
+
+
+
+<p>После</p>
