@@ -18,6 +18,7 @@ inline bool OptimizedStrCmp(const char* s1, const char* s2) {
 		"vmovdqu ymm0, YMMWORD PTR [%1]\n"
 		"vptest  ymm0, YMMWORD PTR [%2]\n"
 		"setb %b0\n"
+		"vzeroupper\n"
 		".att_syntax prefix\n\t"
 		: "+&r"(cmp)
 		: "r"(s1), "r"(s2)
@@ -27,27 +28,27 @@ inline bool OptimizedStrCmp(const char* s1, const char* s2) {
 	return cmp;
 }
 
-bool ListFindElem(List* list, const char* str) {
+// bool ListFindElem(List* list, const char* str) {
 
-	assert(list != nullptr);
-	assert(str != nullptr);
-	assert(list->list_arr != nullptr);
+// 	assert(list != nullptr);
+// 	assert(str != nullptr);
+// 	assert(list->list_arr != nullptr);
 	
-	Node* node_var = &NODE(list->head);
+// 	Node* node_var = &NODE(list->head);
 
-	int i = 0;
+// 	int i = 0;
 
-	while (i < list->size) 
-	{
-		if (strcmp(node_var->data, str) == 0)
-			return true;
+// 	while (i < list->size) 
+// 	{
+// 		if (OptimizedStrCmp(node_var->data, str))
+// 			return true;
 			
-		node_var = &NODE(node_var->next);
-		i++;
-	}
+// 		node_var = &NODE(node_var->next);
+// 		i++;
+// 	}
 
-	return false;
-}
+// 	return false;
+// }
 
 int NodeCtor(Node* node, ListElem_t value, int next, int prev, int ind) {
 	node->data = value;

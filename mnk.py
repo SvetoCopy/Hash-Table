@@ -1,7 +1,7 @@
 import numpy as np
 
 # Входные данные
-data = np.array([1150606410, 1128744823, 1077206075 ])
+data = np.array([311400203, 313090695, 313610165])
 
 # Находим среднее значение
 mean_value = np.mean(data)

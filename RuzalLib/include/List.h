@@ -30,7 +30,7 @@ struct List {
 
 int NodeCtor(Node* node, ListElem_t value, int next, int prev, int ind);
 
-bool ListFindElem(List* list, const char* str);
+extern "C" bool ListFindElem(List* list, const char* str);
 
 int ListCtor(List* list, int capacity, const char* name);
 int ListDtor(List* list);

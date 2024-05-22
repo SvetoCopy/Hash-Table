@@ -1,7 +1,7 @@
-#include "HashTable.h"
-#include "super_io.h"
+#include "include/HashTable.h"
+#include "RuzalLib/include/super_io.h"
 #include <iostream>
-#include "HashFuncs.h"
+#include "include/HashFuncs.h"
 
 void CreateGraphTable(FILE* file, HashTable* table) 
 {
