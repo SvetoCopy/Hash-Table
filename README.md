@@ -263,7 +263,7 @@ uint32_t HashFuncCRC32Intr(const char* str)
 
 ![image](https://github.com/SvetoCopy/Hash-Table/assets/65361271/84ec17fb-3a74-4e4d-a7f1-dea1b8788977)
 
-<p>Видим, что strcmp - самая затратная функция. Давайте попробуем написать свою функцию сравнения строк на встроенном ассемблере:</p>
+<p>Видим, что strcmp - самая затратная функция. Давайте попробуем написать свою функцию сравнения строк на встроенном ассемблере. Основываясь на листинге https://godbolt.org/z/n15Gxe63e при оптимизации -O3 получаем такой код:</p>
 
 ```c++
 inline bool OptimizedStrCmp(const char* s1, const char* s2) {
