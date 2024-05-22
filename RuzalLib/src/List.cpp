@@ -18,7 +18,6 @@ inline bool OptimizedStrCmp(const char* s1, const char* s2) {
 		"vmovdqu ymm0, YMMWORD PTR [%1]\n"
 		"vptest  ymm0, YMMWORD PTR [%2]\n"
 		"setb %b0\n"
-		"vzeroupper\n"
 		".att_syntax prefix\n\t"
 		: "+&r"(cmp)
 		: "r"(s1), "r"(s2)
@@ -40,7 +39,7 @@ bool ListFindElem(List* list, const char* str) {
 
 	while (i < list->size) 
 	{
-		if (OptimizedStrCmp(node_var->data, str))
+		if (strcmp(node_var->data, str) == 0)
 			return true;
 			
 		node_var = &NODE(node_var->next);
