@@ -1,10 +1,32 @@
-#include "List.h"
+#include "../include/List.h"
 #include "assert.h"
 #include <string.h>
 
 #define PREV(indx) list->list_arr[indx].prev
 #define NEXT(indx) list->list_arr[indx].next
 #define NODE(indx)  list->list_arr[indx]
+
+inline bool OptimizedStrCmp(const char* s1, const char* s2) {
+
+	assert(s1 != nullptr);
+	assert(s2 != nullptr);
+
+	bool cmp = 0;
+
+	asm (
+		".intel_syntax noprefix\n\t"
+		"vmovdqu ymm0, YMMWORD PTR [%1]\n"
+		"vptest  ymm0, YMMWORD PTR [%2]\n"
+		"setb %b0\n"
+		"vzeroupper\n"
+		".att_syntax prefix\n\t"
+		: "+&r"(cmp)
+		: "r"(s1), "r"(s2)
+		: "ymm0", "cc"
+	);
+
+	return cmp;
+}
 
 bool ListFindElem(List* list, const char* str) {
 
@@ -18,7 +40,7 @@ bool ListFindElem(List* list, const char* str) {
 
 	while (i < list->size) 
 	{
-		if (strcmp(node_var->data, str) == 0)
+		if (OptimizedStrCmp(node_var->data, str))
 			return true;
 			
 		node_var = &NODE(node_var->next);

@@ -1,4 +1,4 @@
-#include "GraphVizDump.h"
+#include "../include/GraphVizDump.h"
 
 #define BG_COLOR              "cornsilk1"
 #define HEADNTAIL_ARROW_COLOR "darksalmon"

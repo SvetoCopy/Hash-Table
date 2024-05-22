@@ -1,4 +1,4 @@
-#include "sort.h"
+#include "../include/sort.h"
 
 
 int Comparator(const void* p1, const void* p2)

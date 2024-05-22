@@ -1,4 +1,4 @@
-#include "logger_.h"
+#include "../include/logger_.h"
 
 int LogFileCtor(const char* name, LogFile* logger) {
 	logger->name = name;

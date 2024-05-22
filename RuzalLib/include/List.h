@@ -37,6 +37,8 @@ int ListDtor(List* list);
 int ListVerify(List* list);
 int ListDump(List* list);
 
+bool OptimizedStrCmp(char* str1, char* str2);
+
 int ListInsertStart(List* list, ListElem_t value);
 int ListInsertEnd(List* list, ListElem_t value);
 int ListInsertBefore(List* list, ListElem_t value, int arr_ind);

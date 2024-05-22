@@ -1,18 +1,43 @@
-#include "HashFuncs.h"
+#include "../include/HashFuncs.h"
 #include <nmmintrin.h>
+#include <immintrin.h>
 
 uint32_t HashFuncCRC32(const char* str) 
 {
     assert(str != nullptr);
 
+    uint32_t crc = -1;
+
+    int i = 0;
+
+    while (str[i] != 0)
+    {
+        crc = crc ^ (str[i] << 24);
+        for (int bit = 0; bit < 8; bit++)
+        {
+            if (crc & (1L << 31))
+                crc = (crc << 1) ^ 0x04C11DB7;
+            else
+                crc = (crc << 1);
+        }
+
+        i++;
+    }
+    return ~crc;
+}
+
+uint32_t HashFuncCRC32Intr(const char* str) 
+{
+    assert(str != nullptr);
+
     uint32_t crc = 0xFFFFFFFF;
-    crc = _mm_crc32_u32(crc, *(unsigned int*)str);
-    crc = _mm_crc32_u32(crc, *((unsigned int*)str + 1));
-    crc = _mm_crc32_u32(crc, *((unsigned int*)str + 2));
-    crc = _mm_crc32_u32(crc, *((unsigned int*)str + 3));
+
+    for (int i = 0; i < (MAX_STR_LENGTH / 8); i++)
+        crc = _mm_crc32_u64(crc, *((uint64_t*)str + i));
 
     return crc;
 }
+
 uint32_t HashFuncStrLen(const char* str) 
 {
     assert(str != nullptr);

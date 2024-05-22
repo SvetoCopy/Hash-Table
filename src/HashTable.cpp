@@ -1,10 +1,10 @@
-#include "HashTable.h"
+#include "../include/HashTable.h"
 #include <string.h>
-#include "HashFuncs.h"
+#include "../include/HashFuncs.h"
 
 uint32_t HashTable::HashFunc(const char* str, int max_num) 
 {
-    return HashFuncCRC32(str) % max_num;
+    return HashFuncCRC32Intr(str) % max_num;
 }
 
 HashTable::HashTable(size_t table_size) :
